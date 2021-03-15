@@ -7,10 +7,5 @@
 
 import XCTest
 
-final class SpandexUITests: XCTestCase {
-
-    func testAppLaunches() throws {
-        let app = XCUIApplication()
-        app.launch()
-    }
-}
+// NOTE: Purely to have the test target buildable at this stage
+final class SpandexUITests: XCTestCase {}
