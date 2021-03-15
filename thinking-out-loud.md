@@ -5,12 +5,10 @@ App names are always a challenge, here I'm going to forego caring too much but a
 
 I'll go with Spandex for the tongue-in-cheek value.
 
-
-Project setup
+*Project setup*
 - Swiftlint autocorrect makes the warn-fix cycle quicker
 - Previews
 	- Should check light / dark by default
 
-ContentView
+*ContentView*
 	- Text inherits Color.primary by default but the background colour needs to be explicitly set before it'll show.
-	
