@@ -8,8 +8,5 @@
 import XCTest
 @testable import Spandex
 
-final class SpandexTests: XCTestCase {
-    func test() {
-        // NOTE: Purely to have the test target buildable at this stage
-    }
-}
+// NOTE: Purely to have the test target buildable at this stage
+final class SpandexTests: XCTestCase {}

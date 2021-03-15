@@ -9,9 +9,11 @@ import SwiftUI
 
 @main
 struct SpandexApp: App {
+    var characters: [CharacterState] = PreviewCharacterStateProvider().provide()
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(characters: characters, imageLoaderProvider: ImageLoaderProvider.shared)
         }
     }
 }
