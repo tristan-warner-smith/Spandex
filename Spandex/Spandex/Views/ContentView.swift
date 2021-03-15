@@ -8,12 +8,13 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State var characters: [CharacterState] = []
+
     var body: some View {
         ZStack {
             Color(.systemBackground).ignoresSafeArea()
 
-            Text("Hello, Spandex!")
-                .padding()
+            SuperHeroListView(characters: characters)
         }
     }
 }
