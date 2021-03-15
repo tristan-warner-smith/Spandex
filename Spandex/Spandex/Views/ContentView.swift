@@ -15,7 +15,11 @@ struct ContentView<LoaderProvider>: View where LoaderProvider: ImageLoaderProvid
         ZStack {
             Color(.systemBackground).ignoresSafeArea()
 
-            CharacterListView(characters: characters, imageLoaderProvider: imageLoaderProvider)
+            if characters.isEmpty {
+                EmptyCharacterListView()
+            } else {
+                CharacterListView(characters: characters, imageLoaderProvider: imageLoaderProvider)
+            }
         }
     }
 }
@@ -28,8 +32,16 @@ struct ContentView_Previews: PreviewProvider {
 
         return Group {
             ContentView(characters: characters, imageLoaderProvider: imageLoaderProvider)
+                .previewDisplayName("Populated")
             ContentView(characters: characters, imageLoaderProvider: imageLoaderProvider)
                 .colorScheme(.dark)
+                .previewDisplayName("Populated - Dark")
+
+            ContentView(characters: [], imageLoaderProvider: imageLoaderProvider)
+                .previewDisplayName("Empty")
+            ContentView(characters: [], imageLoaderProvider: imageLoaderProvider)
+                .colorScheme(.dark)
+                .previewDisplayName("Empty - Dark")
         }
     }
 }
