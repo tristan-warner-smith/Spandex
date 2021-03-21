@@ -27,7 +27,9 @@ struct CharacterListView<LoaderProvider>: View where LoaderProvider: ImageLoader
                         imageLoader: imageLoaderProvider.provide(url: character.imageURL)
                     )
                 }
-            }.padding(.horizontal)
+            }
+            .padding(.horizontal)
+            .animation(Animation.easeInOut.speed(2))
         }
     }
 }
