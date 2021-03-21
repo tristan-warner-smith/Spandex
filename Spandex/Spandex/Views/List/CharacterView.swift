@@ -13,33 +13,27 @@ struct CharacterListItemView<Loader>: View where Loader: ImageLoadable {
     @State var loading: Bool = false
 
     @ObservedObject var imageLoader: Loader
+    @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
-        VStack {
+        VStack(spacing: 12) {
             switch imageLoader.image {
             case .loaded(let image):
-                image
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
+                resizableImage(image)
                     .clipShape(RoundedRectangle(cornerRadius: 25, style: .continuous))
+                    .shadowBackgrounded(colorScheme)
             case .notLoaded:
-                Image(systemName: "person.crop.square")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
+                resizableImage(Image(systemName: "person.crop.square"))
                     .padding(60)
                     .foregroundColor(Color(.secondarySystemFill))
-                    .background(RoundedRectangle(cornerRadius: 25, style: .continuous)
-                                    .fill(Color(.quaternarySystemFill)))
+                    .shadowBackgrounded(colorScheme)
 
             case .loading:
-                Image(systemName: "arrow.triangle.2.circlepath")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
+                resizableImage(Image(systemName: "arrow.triangle.2.circlepath"))
                     .padding(80)
                     .rotationEffect(.degrees(loading ? 360 : 0))
                     .foregroundColor(Color(.secondarySystemFill))
-                    .background(RoundedRectangle(cornerRadius: 25, style: .continuous)
-                                    .fill(Color(.quaternarySystemFill)))
+                    .shadowBackgrounded(colorScheme)
                     .onAppear {
                         withAnimation(Animation
                                         .linear(duration: 1.2)
@@ -49,17 +43,46 @@ struct CharacterListItemView<Loader>: View where Loader: ImageLoadable {
                     .onDisappear { loading = false }
 
             case .failed:
-                Image(systemName: "xmark")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
+                resizableImage(Image(systemName: "xmark"))
                     .padding(60)
                     .foregroundColor(Color(.secondarySystemFill))
-                    .background(RoundedRectangle(cornerRadius: 25, style: .continuous)
-                                    .fill(Color(.quaternarySystemFill)))
+                    .shadowBackgrounded(colorScheme)
             }
 
             Text(character.name)
-                .padding(.bottom)
+                .font(.system(.headline, design: .rounded))
+        }
+        .padding(.bottom)
+    }
+
+    func resizableImage(_ image: Image) -> some View {
+        image
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+    }
+}
+
+extension View {
+
+    func shadowBackgrounded(_ colorScheme: ColorScheme) -> some View {
+
+        let backgrounded = self
+            .background(
+                RoundedRectangle(cornerRadius: 25, style: .continuous)
+                    .fill(Color(.secondarySystemBackground)))
+
+        return Group {
+            if colorScheme == .dark {
+                backgrounded
+            } else {
+                backgrounded
+                .compositingGroup()
+                .shadow(
+                    color: Color.black.opacity(0.2),
+                    radius: 16,
+                    x: 4.0,
+                    y: 4.0)
+            }
         }
     }
 }
