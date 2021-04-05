@@ -16,12 +16,12 @@ struct CharacterListItemView<Loader>: View where Loader: ImageLoadable {
     @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
-        VStack(spacing: 12) {
             switch imageLoader.image {
             case .loaded(let image):
                 resizableImage(image)
                     .clipShape(RoundedRectangle(cornerRadius: 25, style: .continuous))
-                    .shadowBackgrounded(colorScheme)
+                    .shadowBackgrounded(colorScheme, opacity: 0.8)
+
             case .notLoaded:
                 resizableImage(Image(systemName: "person.crop.square"))
                     .padding(60)
@@ -48,11 +48,6 @@ struct CharacterListItemView<Loader>: View where Loader: ImageLoadable {
                     .foregroundColor(Color(.secondarySystemFill))
                     .shadowBackgrounded(colorScheme)
             }
-
-            Text(character.name)
-                .font(.system(.headline, design: .rounded))
-        }
-        .padding(.bottom)
     }
 
     func resizableImage(_ image: Image) -> some View {
@@ -64,7 +59,7 @@ struct CharacterListItemView<Loader>: View where Loader: ImageLoadable {
 
 extension View {
 
-    func shadowBackgrounded(_ colorScheme: ColorScheme) -> some View {
+    func shadowBackgrounded(_ colorScheme: ColorScheme, opacity: Double = 0.2) -> some View {
 
         let backgrounded = self
             .background(
@@ -74,14 +69,16 @@ extension View {
         return Group {
             if colorScheme == .dark {
                 backgrounded
+                    .overlay(RoundedRectangle(cornerRadius: 25, style: .continuous)
+                                .stroke(Color(.secondarySystemFill), lineWidth: 2))
             } else {
                 backgrounded
                 .compositingGroup()
                 .shadow(
-                    color: Color.black.opacity(0.2),
-                    radius: 16,
-                    x: 4.0,
-                    y: 4.0)
+                    color: Color.black.opacity(opacity),
+                    radius: 4,
+                    x: 2.0,
+                    y: 2)
             }
         }
     }

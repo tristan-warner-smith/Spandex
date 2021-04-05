@@ -9,10 +9,10 @@ import SwiftUI
 
 struct GroupingListView: View {
 
+    @EnvironmentObject var search: SearchViewModel
+
     @Namespace var selectionNamespace
-    @Binding var selection: CharacterGrouping
     var groups: [CharacterGrouping] = CharacterGrouping.allCases
-    var changeGroupingTo: (CharacterGrouping) -> Void
 
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
@@ -21,7 +21,7 @@ struct GroupingListView: View {
                     GroupingView(
                         animationNamespace: selectionNamespace,
                         grouping: grouping,
-                        selection: selection
+                        selection: search.grouping
                     )
                     .matchedGeometryEffect(
                         id: grouping,
@@ -30,7 +30,7 @@ struct GroupingListView: View {
                     )
                     .onTapGesture {
                         withAnimation {
-                            changeGroupingTo(grouping)
+                            search.group(by: grouping)
                         }
                     }
                 }
@@ -44,14 +44,12 @@ struct GroupingListView_Previews: PreviewProvider {
 
     static var previews: some View {
         let groups = CharacterGrouping.allCases
-        let selection = groups.randomElement()!
+        let search = SearchViewModel(characters: PreviewCharacterStateProvider().provide())
 
         return Group {
             ForEach(ColorScheme.allCases, id: \.hashValue) { colorScheme in
                 GroupingListView(
-                    selection: .constant(selection),
-                    groups: groups,
-                    changeGroupingTo: { _ in }
+                    groups: groups
                 )
                 .padding()
                 .background(Color(.systemBackground))
@@ -59,6 +57,7 @@ struct GroupingListView_Previews: PreviewProvider {
                 .previewDisplayName("\(colorScheme)")
             }
         }
+        .environmentObject(search)
 
         .previewLayout(.sizeThatFits)
     }
@@ -69,9 +68,7 @@ struct GroupingView: View {
     var animationNamespace: Namespace.ID
     let grouping: CharacterGrouping
     let selection: CharacterGrouping
-    var selected: Bool {
-        grouping == selection
-    }
+    var selected: Bool { grouping == selection }
 
     var body: some View {
         VStack {
