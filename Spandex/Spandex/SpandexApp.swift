@@ -10,10 +10,16 @@ import SwiftUI
 @main
 struct SpandexApp: App {
     @State var characters: [CharacterState] = PreviewCharacterStateProvider().provide()
+    @StateObject var search: SearchViewModel = SearchViewModel(characters: PreviewCharacterStateProvider().provide())
+    @StateObject var favouriteStore = FavouriteStore()
 
     var body: some Scene {
         WindowGroup {
-            ContentView(characters: characters, imageLoaderProvider: ImageLoaderProvider.shared, search: SearchViewModel(characters: characters))
+            ContentView(
+                imageLoaderProvider: ImageLoaderProvider.shared
+            )
+            .environmentObject(search)
+            .environmentObject(favouriteStore)
         }
     }
 }

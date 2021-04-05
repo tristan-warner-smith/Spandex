@@ -9,9 +9,9 @@ import Combine
 import SwiftUI
 
 struct ContentView<LoaderProvider>: View where LoaderProvider: ImageLoaderProviding {
-    let characters: [CharacterState]
+
+    @EnvironmentObject var search: SearchViewModel
     let imageLoaderProvider: LoaderProvider
-    @StateObject var search: SearchViewModel
 
     var body: some View {
         ZStack {
@@ -21,30 +21,26 @@ struct ContentView<LoaderProvider>: View where LoaderProvider: ImageLoaderProvid
 
                 header
 
-                SearchBar(
-                    searchTerm: $search.searchTerm,
-                    showPlaceholder: $search.showPlaceholder,
-                    placeholder: "Find a character by name or details")
+                SearchBar(placeholder: "Find a character by name or details")
                     .padding([.top, .horizontal])
 
-                GroupingListView(
-                    selection: $search.grouping,
-                    changeGroupingTo: { group in
-                        withAnimation {
-                            search.group(by: group)
-                        }
-                    }
-                )
+                GroupingListView()
                 .padding(.vertical, 8)
 
                 if search.matchingCharacters.isEmpty {
                     EmptyCharacterListView(searchTerm: search.searchTerm)
                 } else {
-                    CharacterListView(characters: search.matchingCharacters, imageLoaderProvider: imageLoaderProvider)
-                    .padding(.horizontal, 16)
+                    CharacterListView(
+                        characters: search.matchingCharacters,
+                        imageLoaderProvider: imageLoaderProvider
+                    )
+                    .padding([.bottom, .horizontal])
                 }
+
                 Spacer()
-            }.transition(.slide)
+            }
+            .ignoresSafeArea(edges: .bottom)
+            .transition(.slide)
         }
     }
 
@@ -68,17 +64,24 @@ struct ContentView_Previews: PreviewProvider {
         let emptySearch = SearchViewModel(characters: [])
 
         return Group {
-            ContentView(characters: characters, imageLoaderProvider: imageLoaderProvider, search: search)
+            ContentView(imageLoaderProvider: imageLoaderProvider)
+                .environmentObject(search)
                 .previewDisplayName("Populated")
-            ContentView(characters: characters, imageLoaderProvider: imageLoaderProvider, search: search)
+
+            ContentView(imageLoaderProvider: imageLoaderProvider)
+                .environmentObject(search)
                 .colorScheme(.dark)
                 .previewDisplayName("Populated - Dark")
 
-            ContentView(characters: [], imageLoaderProvider: imageLoaderProvider, search: emptySearch)
+            ContentView(imageLoaderProvider: imageLoaderProvider)
+                .environmentObject(emptySearch)
                 .previewDisplayName("Empty")
-            ContentView(characters: [], imageLoaderProvider: imageLoaderProvider, search: emptySearch)
+
+            ContentView(imageLoaderProvider: imageLoaderProvider)
+                .environmentObject(emptySearch)
                 .colorScheme(.dark)
                 .previewDisplayName("Empty - Dark")
         }
+
     }
 }
