@@ -21,7 +21,8 @@ struct PreviewCharacterStateProvider {
                     aliases: ["Rick Jones"],
                     placeOfBirth: "Scarsdale, Arizona",
                     alignment: .good
-                )
+                ),
+                appearance: Appearance(race: "Human")
             ),
             CharacterState(
                 id: 2,
@@ -33,7 +34,8 @@ struct PreviewCharacterStateProvider {
                     aliases: ["Langdon Everett Caul, Langdon Caul"],
                     placeOfBirth: "Unknown",
                     alignment: .good
-                )
+                ),
+                appearance: Appearance(race: "Icthyo Sapien")
             ),
             CharacterState(
                 id: 3,
@@ -45,7 +47,21 @@ struct PreviewCharacterStateProvider {
                     aliases: ["Lagzia"],
                     placeOfBirth: "Ungara",
                     alignment: .good
-                )
+                ),
+                appearance: Appearance(race: "Ungaran")
+            ),
+            CharacterState(
+                id: 4,
+                name: "Abomination",
+                imageURL: URL(string: "https://www.superherodb.com/pictures2/portraits/10/100/1.jpg")!,
+                biography: Biography(
+                    fullName: "Emil Blonsky",
+                    alterEgos: "No alter egos found.",
+                    aliases: ["Agent R-7", "Ravager of Worlds"],
+                    placeOfBirth: "Zagreb, Yugoslavia",
+                    alignment: .bad
+                ),
+                appearance: Appearance(race: "Human / Radiation")
             )
         ]
     }

@@ -3,6 +3,15 @@
 
 ---
 
+Let's add some grouping and animation using MatchedGeometryEffect to animate group selection.
+MatchedGeometryEffect is usually used for image > modal / fullscreen effects but this is another good use.
+
+---
+
+Let's add a comprehensive search that checks more than just name, in thi dataset there's name, aliases, alter egos, full name, place of birth and alignment that could help you find "That human baddie with a 'Bom' in it.   
+
+---
+
 Components that aren't full screens should be previewed with appropriate backgrounds
 
 ---

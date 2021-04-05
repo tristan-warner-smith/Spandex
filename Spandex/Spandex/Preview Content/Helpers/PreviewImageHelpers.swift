@@ -43,7 +43,8 @@ struct PreviewImageHelpers {
     static let urlImageMap: [URL: Image] = [
         URL(string: "https://www.superherodb.com/pictures2/portraits/10/100/10060.jpg")!: Image(uiImage: UIImage(named: "A-Bomb")!),
         URL(string: "https://www.superherodb.com/pictures2/portraits/10/100/956.jpg")!: Image(uiImage: UIImage(named: "Abe-Sapien")!),
-        URL(string: "https://www.superherodb.com/pictures2/portraits/10/100/1460.jpg")!: Image(uiImage: UIImage(named: "Abin-Sur")!)
+        URL(string: "https://www.superherodb.com/pictures2/portraits/10/100/1460.jpg")!: Image(uiImage: UIImage(named: "Abin-Sur")!),
+        URL(string: "https://www.superherodb.com/pictures2/portraits/10/100/1.jpg")!: Image(uiImage: UIImage(named: "Abomination")!)
     ]
 
     static let image = Self.urlImageMap.first!.value

@@ -12,6 +12,11 @@ struct CharacterState {
     let name: String
     let imageURL: URL
     let biography: Biography
+    let appearance: Appearance
+}
+
+struct Appearance {
+    let race: String
 }
 
 struct Biography {
@@ -25,6 +30,6 @@ struct Biography {
 enum CharacterAlignment: String {
     case good = "Good"
     case neutral = "Neutral"
-    case bad = "Evil"
+    case bad = "Bad"
     case unknown = "Unknown"
 }
