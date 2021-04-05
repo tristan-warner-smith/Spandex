@@ -14,7 +14,8 @@ struct EmptyCharacterListView: View {
     var titleMessage: String {
         searchTerm.isEmpty
             ? "No characters here..."
-            : "No matches found for '\(searchTerm)'"
+            : "No matches found"
+
     }
 
     var helpMessage: String {
@@ -24,57 +25,62 @@ struct EmptyCharacterListView: View {
     }
 
     var body: some View {
-        GeometryReader { _ in
-            VStack {
+        VStack {
+
+            HStack {
+
                 Spacer()
-                HStack {
+                VStack(spacing: 16) {
+                    Image(systemName: "person.3.fill")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 100, height: 100)
+                        .foregroundColor(Color(.systemFill))
 
-                    Spacer()
-                    VStack(spacing: 20) {
-                        Image(systemName: "person.3.fill")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(height: 80)
-                            .foregroundColor(Color(.systemFill))
-                            .padding(.top)
+                        .padding()
+                        .padding()
+                        .background(
+                            Circle()
+                                .fill(Color(.systemFill)
+                                )
+                        )
 
-                        Text(titleMessage)
-                            .font(.system(.title, design: .rounded))
-                            .foregroundColor(Color(.secondaryLabel))
-                        Text(helpMessage)
-                            .font(.system(.title2, design: .rounded))
-                            .foregroundColor(Color(.secondaryLabel))
-                    }
-                    .padding()
+                    Text(titleMessage)
+                        .font(.system(.title2, design: .rounded))
+                        .foregroundColor(Color(.secondaryLabel))
 
-                    Spacer()
+                    Text(helpMessage)
+                        .font(.system(.title3, design: .rounded))
+                        .foregroundColor(Color(.secondaryLabel))
                 }
-                .padding(.vertical)
+                .padding()
+
                 Spacer()
             }
-
+            .padding(.vertical)
         }
-        .background(
-            RoundedRectangle(
-                cornerRadius: 25.0,
-                style: .continuous)
-                .fill(Color(.quaternarySystemFill))
-        )
-        .padding()
     }
 }
 
 struct EmptyCharacterListView_Previews: PreviewProvider {
     static var previews: some View {
-        Group {
-            EmptyCharacterListView(searchTerm: "Captain")
 
-            ZStack {
-                Color(.systemBackground).ignoresSafeArea()
+        let scenarios: [String] = [
+            "Captain",
+            ""
+        ]
 
-                EmptyCharacterListView(searchTerm: "Captain")
+        return Group {
+
+            ForEach(ColorScheme.allCases, id: \.hashValue) { colorScheme in
+                ForEach(scenarios, id: \.self) { scenario in
+                    EmptyCharacterListView(searchTerm: scenario)
+                        .background(Color(.systemBackground))
+                        .colorScheme(colorScheme)
+                        .previewDisplayName("\(colorScheme) - \(scenario.isEmpty ? "No search term" : scenario)")
+                        .previewLayout(.sizeThatFits)
+                }
             }
-            .colorScheme(.dark)
         }
     }
 }
