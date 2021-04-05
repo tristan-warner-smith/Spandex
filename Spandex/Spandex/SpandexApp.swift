@@ -15,9 +15,7 @@ struct SpandexApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView(
-                imageLoaderProvider: ImageLoaderProvider.shared
-            )
+            ContentView(imageLoaderProvider: ImageLoaderProvider.shared)
             .environmentObject(search)
             .environmentObject(favouriteStore)
         }

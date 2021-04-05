@@ -69,6 +69,8 @@ extension View {
         return Group {
             if colorScheme == .dark {
                 backgrounded
+                    .overlay(RoundedRectangle(cornerRadius: 25, style: .continuous)
+                                .stroke(Color(.secondarySystemFill), lineWidth: 2))
             } else {
                 backgrounded
                 .compositingGroup()

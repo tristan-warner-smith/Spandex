@@ -34,7 +34,7 @@ struct ContentView<LoaderProvider>: View where LoaderProvider: ImageLoaderProvid
                         characters: search.matchingCharacters,
                         imageLoaderProvider: imageLoaderProvider
                     )
-                    .padding([.bottom, .horizontal])
+                    .padding([.bottom])
                 }
 
                 Spacer()
@@ -82,6 +82,6 @@ struct ContentView_Previews: PreviewProvider {
                 .colorScheme(.dark)
                 .previewDisplayName("Empty - Dark")
         }
-
+        .environmentObject(FavouriteStore())
     }
 }
