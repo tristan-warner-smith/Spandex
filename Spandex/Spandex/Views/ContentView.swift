@@ -33,6 +33,7 @@ struct ContentView<LoaderProvider>: View where LoaderProvider: ImageLoaderProvid
                         }
                     }
                 )
+                .padding(.vertical, 8)
 
                 if search.matchingCharacters.isEmpty {
                     EmptyCharacterListView(searchTerm: search.searchTerm)
