@@ -17,9 +17,11 @@ struct CharacterListView<LoaderProvider>: View where LoaderProvider: ImageLoader
         ScrollView(.vertical) {
             LazyVGrid(
                 columns: [
-                GridItem(.flexible()),
-                GridItem(.flexible())
-            ], spacing: 0) {
+                    GridItem(.flexible(), spacing: 16),
+                    GridItem(.flexible(), spacing: 16)
+                ],
+                spacing: 0
+            ) {
                 ForEach(characters, id: \.id) { character in
 
                     CharacterListItemView(
@@ -28,7 +30,6 @@ struct CharacterListView<LoaderProvider>: View where LoaderProvider: ImageLoader
                     )
                 }
             }
-            .padding(.horizontal)
             .animation(Animation.easeInOut.speed(2))
         }
     }
@@ -41,12 +42,12 @@ struct CharacterListView_Previews: PreviewProvider {
         let imageLoaderProvider = PreviewImageLoaderProvider<PreviewImageLoader>()
 
         return Group {
-                CharacterListView(characters: characters, imageLoaderProvider: imageLoaderProvider)
-                    .background(Color(.systemBackground).ignoresSafeArea())
+            CharacterListView(characters: characters, imageLoaderProvider: imageLoaderProvider)
+                .background(Color(.systemBackground).ignoresSafeArea())
 
-                CharacterListView(characters: characters, imageLoaderProvider: imageLoaderProvider)
-                    .background(Color(.systemBackground).ignoresSafeArea())
-                    .colorScheme(.dark)
+            CharacterListView(characters: characters, imageLoaderProvider: imageLoaderProvider)
+                .background(Color(.systemBackground).ignoresSafeArea())
+                .colorScheme(.dark)
         }
     }
 }

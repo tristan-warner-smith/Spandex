@@ -23,12 +23,22 @@ struct ContentView<LoaderProvider>: View where LoaderProvider: ImageLoaderProvid
                     searchTerm: $search.searchTerm,
                     showPlaceholder: $search.showPlaceholder,
                     placeholder: "Find a character by name or details")
-                    .padding()
+                    .padding([.top, .horizontal])
+
+                GroupingListView(
+                    selection: $search.grouping,
+                    changeGroupingTo: { group in
+                        withAnimation {
+                            search.group(by: group)
+                        }
+                    }
+                )
 
                 if search.matchingCharacters.isEmpty {
                     EmptyCharacterListView(searchTerm: search.searchTerm)
                 } else {
                     CharacterListView(characters: search.matchingCharacters, imageLoaderProvider: imageLoaderProvider)
+                    .padding(.horizontal, 16)
                 }
                 Spacer()
             }.transition(.slide)
