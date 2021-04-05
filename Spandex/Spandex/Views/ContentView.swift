@@ -19,6 +19,8 @@ struct ContentView<LoaderProvider>: View where LoaderProvider: ImageLoaderProvid
 
             VStack {
 
+                header
+
                 SearchBar(
                     searchTerm: $search.searchTerm,
                     showPlaceholder: $search.showPlaceholder,
@@ -44,6 +46,16 @@ struct ContentView<LoaderProvider>: View where LoaderProvider: ImageLoaderProvid
                 Spacer()
             }.transition(.slide)
         }
+    }
+
+    var header: some View {
+        HStack {
+            Text("Explore the world of ") + Text("Spandex").bold()
+
+            Spacer()
+        }
+        .padding(.horizontal)
+        .font(.system(.largeTitle, design: .rounded))
     }
 }
 
