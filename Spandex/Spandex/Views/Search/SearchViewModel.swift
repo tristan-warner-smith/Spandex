@@ -2,7 +2,7 @@
 //  SearchViewModel.swift
 //  Spandex
 //
-//  Created by Tristan Warner-Smith on 06/04/2021.
+//  Created by Tristan Warner-Smith on 05/04/2021.
 //
 
 import Combine

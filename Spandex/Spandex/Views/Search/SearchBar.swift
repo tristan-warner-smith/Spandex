@@ -10,8 +10,7 @@ import SwiftUI
 
 struct SearchBar: View {
 
-    @Binding var searchTerm: String
-    @Binding var showPlaceholder: Bool
+    @EnvironmentObject var search: SearchViewModel
     let placeholder: String
 
     var body: some View {
@@ -19,12 +18,12 @@ struct SearchBar: View {
             Image(systemName: "magnifyingglass")
 
             ZStack(alignment: .leading) {
-                if showPlaceholder {
+                if search.showPlaceholder {
                     Text(placeholder).foregroundColor(.init(white: 0.4)).allowsHitTesting(false)
                 }
 
-                TextField("", text: $searchTerm) { isEditing in
-                    showPlaceholder = !isEditing
+                TextField("", text: $search.searchTerm) { isEditing in
+                    search.showPlaceholder = !isEditing
                 } onCommit: {}
                 .padding(.vertical)
 
@@ -57,6 +56,8 @@ struct SearchBar: View {
 
 struct SearchBar_Previews: PreviewProvider {
     static var previews: some View {
+        let characters = PreviewCharacterStateProvider().provide()
+        let search = SearchViewModel(characters: characters)
 
         let placeholder = "Find a character by name or details"
         let scenarios: [(id: UUID, searchTerm: String, showPlaceholder: Bool)] = [

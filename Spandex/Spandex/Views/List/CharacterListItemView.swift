@@ -16,13 +16,13 @@ struct CharacterListItemView<Loader>: View where Loader: ImageLoadable {
     @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
-        VStack(spacing: 12) {
             switch imageLoader.image {
             case .loaded(let image):
                     image
                     .configured()
                     .clipShape(RoundedRectangle(cornerRadius: 25, style: .continuous))
-                    .shadowBackgrounded(colorScheme)
+                    .shadowBackgrounded(colorScheme, opacity: 0.8)
+
             case .notLoaded:
                 Image(systemName: "person.crop.square")
                     .configured()
@@ -52,11 +52,12 @@ struct CharacterListItemView<Loader>: View where Loader: ImageLoadable {
                     .foregroundColor(Color(.secondarySystemFill))
                     .shadowBackgrounded(colorScheme)
             }
+    }
 
-            Text(character.name)
-                .font(.system(.headline, design: .rounded))
-        }
-        .padding(.bottom)
+    func resizableImage(_ image: Image) -> some View {
+        image
+            .resizable()
+            .aspectRatio(contentMode: .fit)
     }
 }
 

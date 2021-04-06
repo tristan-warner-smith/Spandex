@@ -14,8 +14,10 @@ struct CharacterListView<LoaderProvider>: View where LoaderProvider: ImageLoader
     var imageLoaderProvider: LoaderProvider
     var select: (CharacterState) -> Void
 
+    @EnvironmentObject var favouriteStore: FavouriteStore
+
     var body: some View {
-        ScrollView(.vertical) {
+        ScrollView(.vertical, showsIndicators: false) {
             LazyVGrid(
                 columns: [
                     GridItem(.flexible(), spacing: 16),
@@ -25,16 +27,52 @@ struct CharacterListView<LoaderProvider>: View where LoaderProvider: ImageLoader
             ) {
                 ForEach(characters, id: \.id) { character in
 
-                    CharacterListItemView(
-                        character: character,
-                        imageLoader: imageLoaderProvider.provide(url: character.imageURL)
-                    )
-                    .onTapGesture {
-                        select(character)
+                    VStack(spacing: 12) {
+                        CharacterListItemView(
+                            character: character,
+                            imageLoader: imageLoaderProvider.provide(url: character.imageURL)
+                        )
+                        .onTapGesture {
+                            select(character)
+                        }
+                        .overlay(
+                            favourite(
+                                favourited: favouriteStore.isFavourited(id: character.id),
+                                toggle: { favouriteStore.toggle(id: character.id) }
+                            )
+                            .offset(y: -6),
+                            alignment: .topTrailing
+                        )
+
+                        Text(character.name)
+                            .font(.system(.headline, design: .rounded))
                     }
+                    .padding(.bottom)
                 }
             }
+            .padding(.horizontal, 16)
+            .padding(.top, 10)
             .animation(Animation.easeInOut.speed(2))
+        }
+    }
+
+    func favourite(favourited: Bool, toggle: @escaping () -> Void) -> some View {
+        ZStack {
+
+            RoundedRectangle(cornerRadius: 16, style: .continuous)
+                .fill(Color.white.opacity(0.01))
+                .frame(width: 44, height: 44)
+                .onTapGesture {
+                    toggle()
+                }
+
+            Image(systemName: "bookmark.fill")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 24)
+                .foregroundColor(favourited ? Color(.systemRed) : Color.white)
+                .shadow(radius: 2)
+                .compositingGroup()
         }
     }
 }
@@ -44,6 +82,12 @@ struct CharacterListView_Previews: PreviewProvider {
 
         let characters = PreviewCharacterStateProvider().provide()
         let imageLoaderProvider = PreviewImageLoaderProvider<PreviewImageLoader>()
+        let favouriteStore = FavouriteStore()
+        characters.forEach { character in
+            if Bool.random() {
+                favouriteStore.toggle(id: character.id)
+            }
+        }
 
         return Group {
             CharacterListView(characters: characters, imageLoaderProvider: imageLoaderProvider, select: { _ in })
@@ -53,5 +97,6 @@ struct CharacterListView_Previews: PreviewProvider {
                 .background(Color(.systemBackground).ignoresSafeArea())
                 .colorScheme(.dark)
         }
+        .environmentObject(favouriteStore)
     }
 }

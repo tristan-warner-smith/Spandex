@@ -13,6 +13,7 @@
 		9A0A7FA5261BAFA80035E640 /* View+ShadowBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A0A7FA4261BAFA80035E640 /* View+ShadowBackground.swift */; };
 		9A0A7FAA261BAFD40035E640 /* Image+Resizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A0A7FA9261BAFD40035E640 /* Image+Resizing.swift */; };
 		9A0A7FAF261CEF630035E640 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A0A7FAE261CEF630035E640 /* SearchViewModel.swift */; };
+		9A0A7F94261BAABC0035E640 /* FavouriteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A0A7F93261BAABC0035E640 /* FavouriteStore.swift */; };
 		9A5557CA25FF80C500204254 /* SpandexApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5557C925FF80C500204254 /* SpandexApp.swift */; };
 		9A5557CC25FF80C500204254 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5557CB25FF80C500204254 /* ContentView.swift */; };
 		9A5557CE25FF80C600204254 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9A5557CD25FF80C600204254 /* Assets.xcassets */; };
@@ -56,6 +57,7 @@
 		9A0A7FA4261BAFA80035E640 /* View+ShadowBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+ShadowBackground.swift"; sourceTree = "<group>"; };
 		9A0A7FA9261BAFD40035E640 /* Image+Resizing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+Resizing.swift"; sourceTree = "<group>"; };
 		9A0A7FAE261CEF630035E640 /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
+		9A0A7F93261BAABC0035E640 /* FavouriteStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteStore.swift; sourceTree = "<group>"; };
 		9A5557C625FF80C500204254 /* Spandex.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Spandex.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A5557C925FF80C500204254 /* SpandexApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpandexApp.swift; sourceTree = "<group>"; };
 		9A5557CB25FF80C500204254 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -200,7 +202,7 @@
 			isa = PBXGroup;
 			children = (
 				9A57B9452602B0E4009AE767 /* SearchBar.swift */,
-				9A0A7FAE261CEF630035E640 /* SearchViewModel.swift */,
+				9A0A7F8E261B722F0035E640 /* SearchViewModel.swift */,
 			);
 			path = Search;
 			sourceTree = "<group>";
@@ -249,6 +251,7 @@
 				9A6E557825FFEA5200C9008A /* ImageLoaderProvider.swift */,
 				9A0A7FA4261BAFA80035E640 /* View+ShadowBackground.swift */,
 				9A0A7FA9261BAFD40035E640 /* Image+Resizing.swift */,
+				9A0A7F93261BAABC0035E640 /* FavouriteStore.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -407,6 +410,7 @@
 			files = (
 				9A6E554925FF89A700C9008A /* CharacterListView.swift in Sources */,
 				9A6E555225FF8D5600C9008A /* CharacterState.swift in Sources */,
+				9A0A7F8F261B722F0035E640 /* SearchViewModel.swift in Sources */,
 				9A5557CC25FF80C500204254 /* ContentView.swift in Sources */,
 				9A5557CA25FF80C500204254 /* SpandexApp.swift in Sources */,
 				9A0A7FAF261CEF630035E640 /* SearchViewModel.swift in Sources */,
@@ -424,6 +428,8 @@
 				9A6E556925FFE9BD00C9008A /* CharacterListItemView.swift in Sources */,
 				9A0A7FA5261BAFA80035E640 /* View+ShadowBackground.swift in Sources */,
 				9A0A7FA0261BAEEF0035E640 /* CharacterDetailView.swift in Sources */,
+				9A6E556925FFE9BD00C9008A /* CharacterView.swift in Sources */,
+				9A0A7F94261BAABC0035E640 /* FavouriteStore.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
