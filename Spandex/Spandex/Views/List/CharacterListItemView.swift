@@ -19,17 +19,20 @@ struct CharacterListItemView<Loader>: View where Loader: ImageLoadable {
         VStack(spacing: 12) {
             switch imageLoader.image {
             case .loaded(let image):
-                resizableImage(image)
+                    image
+                    .configured()
                     .clipShape(RoundedRectangle(cornerRadius: 25, style: .continuous))
                     .shadowBackgrounded(colorScheme)
             case .notLoaded:
-                resizableImage(Image(systemName: "person.crop.square"))
+                Image(systemName: "person.crop.square")
+                    .configured()
                     .padding(60)
                     .foregroundColor(Color(.secondarySystemFill))
                     .shadowBackgrounded(colorScheme)
 
             case .loading:
-                resizableImage(Image(systemName: "arrow.triangle.2.circlepath"))
+                Image(systemName: "arrow.triangle.2.circlepath")
+                    .configured()
                     .padding(80)
                     .rotationEffect(.degrees(loading ? 360 : 0))
                     .foregroundColor(Color(.secondarySystemFill))
@@ -43,7 +46,8 @@ struct CharacterListItemView<Loader>: View where Loader: ImageLoadable {
                     .onDisappear { loading = false }
 
             case .failed:
-                resizableImage(Image(systemName: "xmark"))
+                Image(systemName: "xmark")
+                    .configured()
                     .padding(60)
                     .foregroundColor(Color(.secondarySystemFill))
                     .shadowBackgrounded(colorScheme)
@@ -53,37 +57,6 @@ struct CharacterListItemView<Loader>: View where Loader: ImageLoadable {
                 .font(.system(.headline, design: .rounded))
         }
         .padding(.bottom)
-    }
-
-    func resizableImage(_ image: Image) -> some View {
-        image
-            .resizable()
-            .aspectRatio(contentMode: .fit)
-    }
-}
-
-extension View {
-
-    func shadowBackgrounded(_ colorScheme: ColorScheme) -> some View {
-
-        let backgrounded = self
-            .background(
-                RoundedRectangle(cornerRadius: 25, style: .continuous)
-                    .fill(Color(.secondarySystemBackground)))
-
-        return Group {
-            if colorScheme == .dark {
-                backgrounded
-            } else {
-                backgrounded
-                .compositingGroup()
-                .shadow(
-                    color: Color.black.opacity(0.2),
-                    radius: 16,
-                    x: 4.0,
-                    y: 4.0)
-            }
-        }
     }
 }
 

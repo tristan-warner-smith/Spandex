@@ -1,6 +1,8 @@
 # Thinking out loud
 *Ordered*
 
+The home screen is now functional and looking pretty good too. Time to tackle the detail screen where to be useful + interesting will require adding a lot more data to the schema.
+
 ---
 
 Let's add some grouping and animation using MatchedGeometryEffect to animate group selection.

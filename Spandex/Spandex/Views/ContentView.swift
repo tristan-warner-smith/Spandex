@@ -9,9 +9,11 @@ import Combine
 import SwiftUI
 
 struct ContentView<LoaderProvider>: View where LoaderProvider: ImageLoaderProviding {
-    let characters: [CharacterState]
+
     let imageLoaderProvider: LoaderProvider
-    @StateObject var search: SearchViewModel
+    @EnvironmentObject var search: SearchViewModel
+    @State var selectedCharacter: CharacterState?
+    @State var showDetails: Bool = false
 
     var body: some View {
         ZStack {
@@ -39,12 +41,41 @@ struct ContentView<LoaderProvider>: View where LoaderProvider: ImageLoaderProvid
 
                 if search.matchingCharacters.isEmpty {
                     EmptyCharacterListView(searchTerm: search.searchTerm)
+
+                    Spacer()
                 } else {
-                    CharacterListView(characters: search.matchingCharacters, imageLoaderProvider: imageLoaderProvider)
+                    CharacterListView(
+                        characters: search.matchingCharacters,
+                        imageLoaderProvider: imageLoaderProvider,
+                        select: { character in
+                            withAnimation {
+                                selectedCharacter = character
+                            }
+                        }
+                    )
                     .padding(.horizontal, 16)
                 }
-                Spacer()
-            }.transition(.slide)
+            }
+            .transition(.slide)
+        }
+        .sheet(isPresented: $showDetails) {
+            overlay
+        }
+        .onChange(of: selectedCharacter) { character in
+            withAnimation {
+                showDetails = character != nil
+            }
+        }
+        .onChange(of: showDetails) { show in
+            if !show && selectedCharacter != nil {
+                selectedCharacter = nil
+            }
+        }
+    }
+
+    @ViewBuilder var overlay: some View {
+        if let selected = selectedCharacter {
+            CharacterDetailView(character: selected, imageLoader: imageLoaderProvider.provide(url: selected.imageURL))
         }
     }
 
@@ -68,15 +99,19 @@ struct ContentView_Previews: PreviewProvider {
         let emptySearch = SearchViewModel(characters: [])
 
         return Group {
-            ContentView(characters: characters, imageLoaderProvider: imageLoaderProvider, search: search)
+            ContentView(imageLoaderProvider: imageLoaderProvider)
+                .environmentObject(search)
                 .previewDisplayName("Populated")
-            ContentView(characters: characters, imageLoaderProvider: imageLoaderProvider, search: search)
+            ContentView(imageLoaderProvider: imageLoaderProvider)
+                .environmentObject(search)
                 .colorScheme(.dark)
                 .previewDisplayName("Populated - Dark")
 
-            ContentView(characters: [], imageLoaderProvider: imageLoaderProvider, search: emptySearch)
+            ContentView(imageLoaderProvider: imageLoaderProvider)
+                .environmentObject(emptySearch)
                 .previewDisplayName("Empty")
-            ContentView(characters: [], imageLoaderProvider: imageLoaderProvider, search: emptySearch)
+            ContentView(imageLoaderProvider: imageLoaderProvider)
+                .environmentObject(emptySearch)
                 .colorScheme(.dark)
                 .previewDisplayName("Empty - Dark")
         }
