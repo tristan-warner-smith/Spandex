@@ -50,6 +50,7 @@ struct ContentView<LoaderProvider>: View where LoaderProvider: ImageLoaderProvid
         }
         .sheet(isPresented: $showDetails) {
             overlay
+                .ignoresSafeArea(.container, edges: .bottom)
         }
         .onChange(of: selectedCharacter) { character in
             withAnimation {
@@ -92,6 +93,7 @@ struct ContentView_Previews: PreviewProvider {
         let emptySearch = SearchViewModel(characters: [])
 
         return Group {
+
             ContentView(imageLoaderProvider: imageLoaderProvider)
                 .environmentObject(search)
                 .previewDisplayName("Populated")

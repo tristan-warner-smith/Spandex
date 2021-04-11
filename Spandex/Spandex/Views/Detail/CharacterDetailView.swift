@@ -29,8 +29,8 @@ struct CharacterDetailView<Loader>: View where Loader: ImageLoadable {
     let character: CharacterState
     @ObservedObject var imageLoader: Loader
     @State var loading: Bool = false
-    @Environment(\.colorScheme) var colorScheme
     @State var selectedSection = DetailSection.appearance
+    @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
         VStack(spacing: 8) {
@@ -48,8 +48,6 @@ struct CharacterDetailView<Loader>: View where Loader: ImageLoadable {
                     headers
 
                     sectionDetail
-
-                    Divider()
 
                     Spacer()
                 }
