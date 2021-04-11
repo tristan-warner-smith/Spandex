@@ -18,18 +18,21 @@ struct CharacterListItemView<Loader>: View where Loader: ImageLoadable {
     var body: some View {
             switch imageLoader.image {
             case .loaded(let image):
-                resizableImage(image)
+                    image
+                    .configured()
                     .clipShape(RoundedRectangle(cornerRadius: 25, style: .continuous))
-                    .shadowBackgrounded(colorScheme, opacity: 0.8)
+                        .shadowBackgrounded(colorScheme, radius: 8)
 
             case .notLoaded:
-                resizableImage(Image(systemName: "person.crop.square"))
+                Image(systemName: "person.crop.square")
+                    .configured()
                     .padding(60)
                     .foregroundColor(Color(.secondarySystemFill))
                     .shadowBackgrounded(colorScheme)
 
             case .loading:
-                resizableImage(Image(systemName: "arrow.triangle.2.circlepath"))
+                Image(systemName: "arrow.triangle.2.circlepath")
+                    .configured()
                     .padding(80)
                     .rotationEffect(.degrees(loading ? 360 : 0))
                     .foregroundColor(Color(.secondarySystemFill))
@@ -43,7 +46,8 @@ struct CharacterListItemView<Loader>: View where Loader: ImageLoadable {
                     .onDisappear { loading = false }
 
             case .failed:
-                resizableImage(Image(systemName: "xmark"))
+                Image(systemName: "xmark")
+                    .configured()
                     .padding(60)
                     .foregroundColor(Color(.secondarySystemFill))
                     .shadowBackgrounded(colorScheme)
@@ -54,33 +58,6 @@ struct CharacterListItemView<Loader>: View where Loader: ImageLoadable {
         image
             .resizable()
             .aspectRatio(contentMode: .fit)
-    }
-}
-
-extension View {
-
-    func shadowBackgrounded(_ colorScheme: ColorScheme, opacity: Double = 0.2) -> some View {
-
-        let backgrounded = self
-            .background(
-                RoundedRectangle(cornerRadius: 25, style: .continuous)
-                    .fill(Color(.secondarySystemBackground)))
-
-        return Group {
-            if colorScheme == .dark {
-                backgrounded
-                    .overlay(RoundedRectangle(cornerRadius: 25, style: .continuous)
-                                .stroke(Color(.secondarySystemFill), lineWidth: 2))
-            } else {
-                backgrounded
-                .compositingGroup()
-                .shadow(
-                    color: Color.black.opacity(opacity),
-                    radius: 4,
-                    x: 2.0,
-                    y: 2)
-            }
-        }
     }
 }
 

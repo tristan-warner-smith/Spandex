@@ -10,8 +10,10 @@ import SwiftUI
 
 struct ContentView<LoaderProvider>: View where LoaderProvider: ImageLoaderProviding {
 
-    @EnvironmentObject var search: SearchViewModel
     let imageLoaderProvider: LoaderProvider
+    @EnvironmentObject var search: SearchViewModel
+    @State var selectedCharacter: CharacterState?
+    @State var showDetails: Bool = false
 
     var body: some View {
         ZStack {
@@ -21,26 +23,53 @@ struct ContentView<LoaderProvider>: View where LoaderProvider: ImageLoaderProvid
 
                 header
 
-                SearchBar(placeholder: "Find a character by name or details")
+                SearchBar(search: search, placeholder: "Find a character by name or details")
                     .padding([.top, .horizontal])
 
                 GroupingListView()
-                .padding(.vertical, 8)
+                    .padding(.vertical, 8)
 
                 if search.matchingCharacters.isEmpty {
                     EmptyCharacterListView(searchTerm: search.searchTerm)
+
+                    Spacer()
                 } else {
                     CharacterListView(
                         characters: search.matchingCharacters,
-                        imageLoaderProvider: imageLoaderProvider
+                        imageLoaderProvider: imageLoaderProvider,
+                        select: { character in
+                            withAnimation {
+                                selectedCharacter = character
+                            }
+                        }
                     )
-                    .padding([.bottom])
+                    .padding(.horizontal, 16)
                 }
-
-                Spacer()
             }
-            .ignoresSafeArea(edges: .bottom)
             .transition(.slide)
+        }
+        .sheet(isPresented: $showDetails) {
+            overlay
+                .ignoresSafeArea(.container, edges: .bottom)
+        }
+        .onChange(of: selectedCharacter) { character in
+            withAnimation {
+                showDetails = character != nil
+            }
+        }
+        .onChange(of: showDetails) { show in
+            if !show && selectedCharacter != nil {
+                selectedCharacter = nil
+            }
+        }
+    }
+
+    @ViewBuilder var overlay: some View {
+        if let selected = selectedCharacter {
+            CharacterDetailView(character: selected, imageLoader: imageLoaderProvider.provide(url: selected.imageURL))
+                .padding([.bottom])
+
+            Spacer()
         }
     }
 
@@ -64,6 +93,7 @@ struct ContentView_Previews: PreviewProvider {
         let emptySearch = SearchViewModel(characters: [])
 
         return Group {
+
             ContentView(imageLoaderProvider: imageLoaderProvider)
                 .environmentObject(search)
                 .previewDisplayName("Populated")

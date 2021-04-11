@@ -10,7 +10,7 @@ import SwiftUI
 
 struct SearchBar: View {
 
-    @EnvironmentObject var search: SearchViewModel
+    @ObservedObject var search: SearchViewModel
     let placeholder: String
 
     var body: some View {
@@ -26,6 +26,22 @@ struct SearchBar: View {
                     search.showPlaceholder = !isEditing
                 } onCommit: {}
                 .padding(.vertical)
+
+                if search.showClear {
+                    HStack {
+                        Spacer()
+                        Image(systemName: "xmark")
+                            .font(Font.system(.body, design: .rounded).weight(.bold))
+                            .frame(alignment: .trailing)
+                            .overlay(Button(action: {
+                                search.searchTerm = ""
+                            }) {
+                                Rectangle()
+                                    .fill(Color.clear)
+                                    .frame(width: 44, height: 44)
+                            })
+                    }
+                }
             }
             .animation(.easeInOut)
         }
@@ -39,16 +55,31 @@ struct SearchBar: View {
 }
 
 struct SearchBar_Previews: PreviewProvider {
+    static var models = [SearchViewModel]()
+
     static var previews: some View {
         let characters = PreviewCharacterStateProvider().provide()
-        let search = SearchViewModel(characters: characters)
+
+        let placeholder = "Find a character by name or details"
+        let scenarios: [(id: UUID, searchTerm: String, showPlaceholder: Bool)] = [
+            (UUID(), "", true),
+            (UUID(), "Abomination", false)
+        ]
+
+        models = scenarios.map { scenario in
+            let model = SearchViewModel(characters: characters)
+            model.searchTerm = scenario.searchTerm
+            model.showPlaceholder = scenario.showPlaceholder
+            return model
+        }
 
         return Group {
-            SearchBar(placeholder: "Find a character by name or details")
-            SearchBar(placeholder: "Find a character by name or details")
-                .colorScheme(.dark)
+            ForEach(models) { search in
+                SearchBar(search: search, placeholder: placeholder)
+                SearchBar(search: search, placeholder: placeholder)
+                    .colorScheme(.dark)
+            }
         }
-        .environmentObject(search)
         .padding()
         .previewLayout(.sizeThatFits)
     }

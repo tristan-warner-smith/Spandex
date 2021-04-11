@@ -9,7 +9,6 @@ import SwiftUI
 
 @main
 struct SpandexApp: App {
-    @State var characters: [CharacterState] = PreviewCharacterStateProvider().provide()
     @StateObject var search: SearchViewModel = SearchViewModel(characters: PreviewCharacterStateProvider().provide())
     @StateObject var favouriteStore = FavouriteStore()
 

@@ -8,41 +8,23 @@
 import Combine
 import SwiftUI
 
-final class SearchViewModel: ObservableObject {
+final class SearchViewModel: ObservableObject, Identifiable {
+    let id = UUID()
     let characters: [CharacterState]
     @Published var searchTerm: String = ""
     @Published var matchingCharacters: [CharacterState]
     @Published var showPlaceholder: Bool = false
     @Published var grouping: CharacterGrouping = .all
+    @Published var showClear: Bool = false
     private var cancellable: AnyCancellable?
 
     init(characters: [CharacterState]) {
         self.characters = characters
         self.matchingCharacters = characters
 
-        $grouping
-            .combineLatest($searchTerm)
-            .map { group, term in
-                let groupFilteredCharacters = Self.filtered(characters, by: group)
-                return term.isEmpty ? groupFilteredCharacters : groupFilteredCharacters.filter {
-                    [
-                        [$0.name],
-                        $0.biography.aliases,
-                        [$0.biography.alterEgos],
-                        [$0.biography.fullName],
-                        [$0.biography.placeOfBirth]
-                    ]
-                    .flatMap { $0 }
-                    .contains(where: { searchField in
-                        searchField.localizedCaseInsensitiveContains(term)
-                    })
-                }
-            }
-        .assign(to: &$matchingCharacters)
-
-        $searchTerm
-            .map { $0.trimmingCharacters(in: .whitespaces).isEmpty }
-            .assign(to: &$showPlaceholder)
+        setUpGroupFiltering(characters: characters)
+        setUpPlaceholderDisplay()
+        setUpClearDisplay()
     }
 
     func group(by grouping: CharacterGrouping) {
@@ -63,5 +45,43 @@ final class SearchViewModel: ObservableObject {
         case .nonHuman:
             return characters.filter { !$0.appearance.race.contains("Human") }
         }
+    }
+
+    private func setUpGroupFiltering(characters: [CharacterState]) {
+        $grouping
+            .combineLatest($searchTerm)
+            .map { group, term in
+                let groupFilteredCharacters = Self.filtered(characters, by: group)
+                return term.isEmpty ? groupFilteredCharacters : groupFilteredCharacters.filter {
+                    [
+                        [$0.name],
+                        $0.biography.aliases,
+                        [$0.biography.alterEgos],
+                        [$0.biography.fullName],
+                        [$0.biography.placeOfBirth]
+                    ]
+                    .flatMap { $0 }
+                    .contains(where: { searchField in
+                        searchField.localizedCaseInsensitiveContains(term)
+                    })
+                }
+            }
+        .assign(to: &$matchingCharacters)
+    }
+
+    private func setUpPlaceholderDisplay() {
+        $searchTerm
+            .map { $0.trimmingCharacters(in: .whitespaces).isEmpty }
+            .assign(to: &$showPlaceholder)
+    }
+
+    private func setUpClearDisplay() {
+        $searchTerm
+            .combineLatest($showPlaceholder)
+            .map { term, show in
+                !show && term.count > 1
+            }
+            .removeDuplicates()
+            .assign(to: &$showClear)
     }
 }

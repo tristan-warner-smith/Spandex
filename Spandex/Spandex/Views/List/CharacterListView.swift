@@ -12,6 +12,7 @@ struct CharacterListView<LoaderProvider>: View where LoaderProvider: ImageLoader
     let characters: [CharacterState]
 
     var imageLoaderProvider: LoaderProvider
+    var select: (CharacterState) -> Void
 
     @EnvironmentObject var favouriteStore: FavouriteStore
 
@@ -31,6 +32,9 @@ struct CharacterListView<LoaderProvider>: View where LoaderProvider: ImageLoader
                             character: character,
                             imageLoader: imageLoaderProvider.provide(url: character.imageURL)
                         )
+                        .onTapGesture {
+                            select(character)
+                        }
                         .overlay(
                             favourite(
                                 favourited: favouriteStore.isFavourited(id: character.id),
@@ -86,10 +90,10 @@ struct CharacterListView_Previews: PreviewProvider {
         }
 
         return Group {
-            CharacterListView(characters: characters, imageLoaderProvider: imageLoaderProvider)
+            CharacterListView(characters: characters, imageLoaderProvider: imageLoaderProvider, select: { _ in })
                 .background(Color(.systemBackground).ignoresSafeArea())
 
-            CharacterListView(characters: characters, imageLoaderProvider: imageLoaderProvider)
+            CharacterListView(characters: characters, imageLoaderProvider: imageLoaderProvider, select: { _ in })
                 .background(Color(.systemBackground).ignoresSafeArea())
                 .colorScheme(.dark)
         }
