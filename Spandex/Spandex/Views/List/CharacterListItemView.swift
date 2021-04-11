@@ -21,7 +21,7 @@ struct CharacterListItemView<Loader>: View where Loader: ImageLoadable {
                     image
                     .configured()
                     .clipShape(RoundedRectangle(cornerRadius: 25, style: .continuous))
-                    .shadowBackgrounded(colorScheme, opacity: 0.8)
+                        .shadowBackgrounded(colorScheme, radius: 8)
 
             case .notLoaded:
                 Image(systemName: "person.crop.square")

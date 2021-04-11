@@ -9,7 +9,7 @@ import SwiftUI
 
 extension View {
 
-    func shadowBackgrounded(_ colorScheme: ColorScheme) -> some View {
+    func shadowBackgrounded(_ colorScheme: ColorScheme, radius: CGFloat = 16) -> some View {
 
         let backgrounded = self
             .background(
@@ -24,7 +24,7 @@ extension View {
                 .compositingGroup()
                 .shadow(
                     color: Color.black.opacity(0.2),
-                    radius: 16,
+                    radius: radius,
                     x: 4.0,
                     y: 4.0)
             }

@@ -9,29 +9,29 @@ import Combine
 import SwiftUI
 
 struct ContentView<LoaderProvider>: View where LoaderProvider: ImageLoaderProviding {
-    
+
     let imageLoaderProvider: LoaderProvider
     @EnvironmentObject var search: SearchViewModel
     @State var selectedCharacter: CharacterState?
     @State var showDetails: Bool = false
-    
+
     var body: some View {
         ZStack {
             Color(.systemBackground).ignoresSafeArea()
-            
+
             VStack {
-                
+
                 header
-                
-                SearchBar(placeholder: "Find a character by name or details")
+
+                SearchBar(search: search, placeholder: "Find a character by name or details")
                     .padding([.top, .horizontal])
-                
+
                 GroupingListView()
                     .padding(.vertical, 8)
-                
+
                 if search.matchingCharacters.isEmpty {
                     EmptyCharacterListView(searchTerm: search.searchTerm)
-                    
+
                     Spacer()
                 } else {
                     CharacterListView(
@@ -62,20 +62,20 @@ struct ContentView<LoaderProvider>: View where LoaderProvider: ImageLoaderProvid
             }
         }
     }
-    
+
     @ViewBuilder var overlay: some View {
         if let selected = selectedCharacter {
             CharacterDetailView(character: selected, imageLoader: imageLoaderProvider.provide(url: selected.imageURL))
                 .padding([.bottom])
-            
+
             Spacer()
         }
     }
-    
+
     var header: some View {
         HStack {
             Text("Explore the world of ") + Text("Spandex").bold()
-            
+
             Spacer()
         }
         .padding(.horizontal)
@@ -85,26 +85,26 @@ struct ContentView<LoaderProvider>: View where LoaderProvider: ImageLoaderProvid
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        
+
         let characters = PreviewCharacterStateProvider().provide()
         let imageLoaderProvider = PreviewImageLoaderProvider<PreviewImageLoader>()
         let search = SearchViewModel(characters: characters)
         let emptySearch = SearchViewModel(characters: [])
-        
+
         return Group {
             ContentView(imageLoaderProvider: imageLoaderProvider)
                 .environmentObject(search)
                 .previewDisplayName("Populated")
-            
+
             ContentView(imageLoaderProvider: imageLoaderProvider)
                 .environmentObject(search)
                 .colorScheme(.dark)
                 .previewDisplayName("Populated - Dark")
-            
+
             ContentView(imageLoaderProvider: imageLoaderProvider)
                 .environmentObject(emptySearch)
                 .previewDisplayName("Empty")
-            
+
             ContentView(imageLoaderProvider: imageLoaderProvider)
                 .environmentObject(emptySearch)
                 .colorScheme(.dark)
