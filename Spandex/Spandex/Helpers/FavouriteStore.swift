@@ -8,22 +8,18 @@
 import SwiftUI
 
 final class FavouriteStore: ObservableObject {
-    private var favourites = [Int: Bool]()
+    @Published private(set) var favourites = Set<Int>()
 
     func isFavourited(id: Int) -> Bool {
-        favourites[id] ?? false
+        favourites.contains(id)
     }
 
     func toggle(id: Int) {
 
-        DispatchQueue.main.async { [weak self] in
-            self?.objectWillChange.send()
-        }
-
-        if let favourite = favourites[id] {
-            favourites[id] = !favourite
+        if isFavourited(id: id) {
+            favourites.remove(id)
         } else {
-            favourites[id] = true
+            favourites.insert(id)
         }
     }
 }

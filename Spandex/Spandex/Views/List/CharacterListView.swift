@@ -27,26 +27,19 @@ struct CharacterListView<LoaderProvider>: View where LoaderProvider: ImageLoader
             ) {
                 ForEach(characters, id: \.id) { character in
 
-                    VStack(spacing: 12) {
-                        CharacterListItemView(
-                            character: character,
-                            imageLoader: imageLoaderProvider.provide(url: character.imageURL)
+                    CharacterListItemView(
+                        character: character,
+                        imageLoader: imageLoaderProvider.provide(url: character.imageURL),
+                        select: select
+                    )
+                    .overlay(
+                        favouriteOverlay(
+                            favourited: favouriteStore.isFavourited(id: character.id),
+                            toggle: { favouriteStore.toggle(id: character.id) }
                         )
-                        .onTapGesture {
-                            select(character)
-                        }
-                        .overlay(
-                            favourite(
-                                favourited: favouriteStore.isFavourited(id: character.id),
-                                toggle: { favouriteStore.toggle(id: character.id) }
-                            )
-                            .offset(y: -6),
-                            alignment: .topTrailing
-                        )
-
-                        Text(character.name)
-                            .font(.system(.headline, design: .rounded))
-                    }
+                        .offset(y: -6),
+                        alignment: .topTrailing
+                    )
                     .padding(.bottom)
                 }
             }
@@ -56,7 +49,7 @@ struct CharacterListView<LoaderProvider>: View where LoaderProvider: ImageLoader
         }
     }
 
-    func favourite(favourited: Bool, toggle: @escaping () -> Void) -> some View {
+    func favouriteOverlay(favourited: Bool, toggle: @escaping () -> Void) -> some View {
         ZStack {
 
             RoundedRectangle(cornerRadius: 16, style: .continuous)
@@ -67,8 +60,7 @@ struct CharacterListView<LoaderProvider>: View where LoaderProvider: ImageLoader
                 }
 
             Image(systemName: "bookmark.fill")
-                .resizable()
-                .aspectRatio(contentMode: .fit)
+                .configured()
                 .frame(width: 24)
                 .foregroundColor(favourited ? Color(.systemRed) : Color.white)
                 .shadow(radius: 2)

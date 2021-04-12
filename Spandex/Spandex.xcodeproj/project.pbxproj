@@ -31,6 +31,7 @@
 		9A6E556F25FFE9FB00C9008A /* ImageLoading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6E556E25FFE9FB00C9008A /* ImageLoading.swift */; };
 		9A6E557425FFEA2C00C9008A /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6E557325FFEA2C00C9008A /* ImageLoader.swift */; };
 		9A6E557925FFEA5200C9008A /* ImageLoaderProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6E557825FFEA5200C9008A /* ImageLoaderProvider.swift */; };
+		9AD47BEB2623A36500241868 /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD47BEA2623A36500241868 /* ImageView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -81,6 +82,7 @@
 		9A6E556E25FFE9FB00C9008A /* ImageLoading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoading.swift; sourceTree = "<group>"; };
 		9A6E557325FFEA2C00C9008A /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
 		9A6E557825FFEA5200C9008A /* ImageLoaderProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoaderProvider.swift; sourceTree = "<group>"; };
+		9AD47BEA2623A36500241868 /* ImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -252,6 +254,7 @@
 				9A0A7FA4261BAFA80035E640 /* View+ShadowBackground.swift */,
 				9A0A7FA9261BAFD40035E640 /* Image+Resizing.swift */,
 				9A0A7F93261BAABC0035E640 /* FavouriteStore.swift */,
+				9AD47BEA2623A36500241868 /* ImageView.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -420,6 +423,7 @@
 				9A0A7FAA261BAFD40035E640 /* Image+Resizing.swift in Sources */,
 				9A6E557925FFEA5200C9008A /* ImageLoaderProvider.swift in Sources */,
 				9A6E557425FFEA2C00C9008A /* ImageLoader.swift in Sources */,
+				9AD47BEB2623A36500241868 /* ImageView.swift in Sources */,
 				9A0A7F84261B66510035E640 /* CharacterGrouping.swift in Sources */,
 				9A6E556025FFC83500C9008A /* PreviewCharacterStateProvider.swift in Sources */,
 				9A6E556F25FFE9FB00C9008A /* ImageLoading.swift in Sources */,
