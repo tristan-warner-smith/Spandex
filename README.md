@@ -23,24 +23,24 @@ While pull requests are not requested, they are welcome. If you spot something w
 ## Design
 **App preview animation**
 
-![App preview animation](Spandex.gif)
+![App preview animation](Images/Spandex.gif)
 
 
 **Home screen** *(Light theme)*
 
-![Home screen - Light theme](Home-Light.png)
+![Home screen - Light theme](Images/Home-Light.png)
 
 
 **Home screen** *(Dark theme)*
 
-![Home screen - Dark theme](Home-Dark.png)
+![Home screen - Dark theme](Images/Home-Dark.png)
 
 
 **Detail screen** *(Light theme)*
 
-![Detail screen - Light theme](Detail-Light.png)
+![Detail screen - Light theme](Images/Detail-Light.png)
 
 
 **Detail screen** *(Dark theme)*
 
-![Detail screen - Dark theme](Detail-Dark.png)
+![Detail screen - Dark theme](Images/Detail-Dark.png)
