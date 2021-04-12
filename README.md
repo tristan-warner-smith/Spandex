@@ -8,6 +8,9 @@ To document the approach behind and thinking about process, design, architecture
 Check [initial-thoughts.md](https://github.com/Codeglee/Spandex/blob/develop/initial-thoughts.md) for initial thoughts.
 Check [thinking-out-loud.md](https://github.com/Codeglee/Spandex/blob/develop/thinking-out-loud.md) for ongoing thoughts during development.
 
+## Design
+![](Spandex.gif)
+
 ## Installation
 
 1. Install [Swiftlint](https://github.com/realm/SwiftLint).
