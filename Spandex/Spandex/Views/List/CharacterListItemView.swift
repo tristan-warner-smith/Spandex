@@ -10,54 +10,21 @@ import SwiftUI
 struct CharacterListItemView<Loader>: View where Loader: ImageLoadable {
 
     let character: CharacterState
-    @State var loading: Bool = false
 
     @ObservedObject var imageLoader: Loader
     @Environment(\.colorScheme) var colorScheme
+    var select: (CharacterState) -> Void
 
     var body: some View {
-            switch imageLoader.image {
-            case .loaded(let image):
-                    image
-                    .configured()
-                    .clipShape(RoundedRectangle(cornerRadius: 25, style: .continuous))
-                        .shadowBackgrounded(colorScheme, radius: 8)
+        VStack(spacing: 12) {
+            ImageView(imageLoader: imageLoader)
 
-            case .notLoaded:
-                Image(systemName: "person.crop.square")
-                    .configured()
-                    .padding(60)
-                    .foregroundColor(Color(.secondarySystemFill))
-                    .shadowBackgrounded(colorScheme)
-
-            case .loading:
-                Image(systemName: "arrow.triangle.2.circlepath")
-                    .configured()
-                    .padding(80)
-                    .rotationEffect(.degrees(loading ? 360 : 0))
-                    .foregroundColor(Color(.secondarySystemFill))
-                    .shadowBackgrounded(colorScheme)
-                    .onAppear {
-                        withAnimation(Animation
-                                        .linear(duration: 1.2)
-                                        .repeatForever(autoreverses: false)) {
-                            loading = true }
-                    }
-                    .onDisappear { loading = false }
-
-            case .failed:
-                Image(systemName: "xmark")
-                    .configured()
-                    .padding(60)
-                    .foregroundColor(Color(.secondarySystemFill))
-                    .shadowBackgrounded(colorScheme)
-            }
-    }
-
-    func resizableImage(_ image: Image) -> some View {
-        image
-            .resizable()
-            .aspectRatio(contentMode: .fit)
+            Text(character.name)
+                .font(.system(.headline, design: .rounded))
+        }
+        .onTapGesture {
+            select(character)
+        }
     }
 }
 
@@ -79,15 +46,23 @@ struct CharacterListItemView_Previews: PreviewProvider {
         return Group {
 
             ForEach(scenarios, id: \.id) { scenario in
-                CharacterListItemView(character: character, imageLoader: scenario.loader)
-                    .padding()
-                    .previewDisplayName(scenario.name)
+                CharacterListItemView(
+                    character: character,
+                    imageLoader: scenario.loader,
+                    select: { _ in }
+                )
+                .padding()
+                .previewDisplayName(scenario.name)
 
-                CharacterListItemView(character: character, imageLoader: scenario.loader)
-                    .padding()
-                    .background(Color(.systemBackground))
-                    .previewDisplayName("\(scenario.name) - Dark")
-                    .colorScheme(.dark)
+                CharacterListItemView(
+                    character: character,
+                    imageLoader: scenario.loader,
+                    select: { _ in }
+                )
+                .padding()
+                .background(Color(.systemBackground))
+                .previewDisplayName("\(scenario.name) - Dark")
+                .colorScheme(.dark)
             }
 
         }.previewLayout(.sizeThatFits)
