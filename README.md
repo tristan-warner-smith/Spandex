@@ -21,22 +21,26 @@ While pull requests are not requested, they are welcome. If you spot something w
 [MIT](https://choosealicense.com/licenses/mit/)
 
 ## Design
-![App preview animation](Spandex.gif)
 **App preview animation**
 
+![App preview animation](Spandex.gif)
 
-![Home screen - Light theme](Home-Light.png)
+
 **Home screen** *(Light theme)*
 
+![Home screen - Light theme](Home-Light.png)
 
-![Home screen - Dark theme](Home-Dark.png)
+
 **Home screen** *(Dark theme)*
 
+![Home screen - Dark theme](Home-Dark.png)
 
-![Detail screen - Light theme](Detail-Light.png)
+
 **Detail screen** *(Light theme)*
 
+![Detail screen - Light theme](Detail-Light.png)
 
-![Detail screen - Dark theme](Detail-Dark.png)
+
 **Detail screen** *(Dark theme)*
 
+![Detail screen - Dark theme](Detail-Dark.png)
